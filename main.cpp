@@ -90,7 +90,7 @@ void startProgram() {
 	cout << " --------------------------------------" << endl;
 	cout << "| 1 - Начать игру | 99 - Выход из игры |" << endl;
 	cout << "|--------------------------------------|" << endl;
-	cout << "| Версия игры: 0.1.0001                |" << endl;
+	cout << "| Версия игры: 0.1                     |" << endl;
 	cout << "| Автор: Jourloy (jourloy@yandex.ru)   |" << endl;
 	cout << " --------------------------------------" << endl;
 	cout << "\nОтвет: ";
@@ -413,27 +413,6 @@ void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD
 			}
 		}
 	}
-
-	for (i = 0; i < __WORLD_WIDTH__; i++) {
-		for (j = 0; j < __WORLD_HEIGHT__; j++) {
-			
-			/*
-			p = prev_world[i][j];
-			live_nb = count_live_neighbors(prev_world, i, j);
-
-			if (p.is_live == 0) {
-				if (live_nb == 3) {
-					world[i][j].is_live = 1;
-				}
-			}
-			else {
-				if (live_nb < 2 || live_nb > 3) {
-					world[i][j].is_live = 0;
-				}
-			}
-			*/
-		}
-	}
 }
 
 /*
@@ -506,7 +485,7 @@ int main() {
 
 	init_world(world, user, Xcapital, Ycapital, bots);
 	while (true) {
-		int livePlayers = testWorld(world);
+		int livePlayers = testWorld(world); //TODO: Ваще не работает
 
 		if (livePlayers == 1) {
 			checkPlayers = 0;
@@ -529,15 +508,12 @@ int main() {
 		print_world(world);
 		cout << endl;
 		cout << " ---------------------------------------------------------" << endl;
-		cout << "|             Перемещение и захват территорий             " << endl;
+		cout << "             Перемещение и захват территорий             " << endl;
 		cout << " ---------------------------------------------------------" << endl;
 		cout << "В - занять верхнюю точку     ВВ - перевести курсор выше   " << endl;
 		cout << "Н - занять нижнюю точку      НН - перевести курсор ниже   " << endl;
 		cout << "Л - занять левую точку       ЛЛ - перевести курсор левее  " << endl;
 		cout << "П - занять правую точку      ПП - перевести курсор правее " << endl;
-		cout << " ---------------------------------------------------------" << endl;
-		cout << "" << endl;
-		cout << "" << endl;
 		cout << " ---------------------------------------------------------" << endl;
 		cout << "                        Информация                       " << endl;
 		cout << " ---------------------------------------------------------" << endl;
@@ -584,14 +560,16 @@ int main() {
 			}
 		}
 		else if (answer == "КЦ") {
+			cout << "1" << endl;
+			system("pause");
 			if (checkPlayers != 0) { //TODO:Бот не играет (не связано с добавлением проверки игроков на карте
+				cout << "2" << endl;
+				system("pause");
 				mode = 2;
-				int Zet = Xbot;
-				int Tez = Ybot;
-				Xbot = Zet;
-				Ybot = Tez;
 				int direction = rand() % 3;
 				if (direction == 1) {
+					cout << "3" << endl;
+					system("pause");
 					int amount = rand() % 3;
 					if (amount == 1) {
 						DirectBot = 1;
