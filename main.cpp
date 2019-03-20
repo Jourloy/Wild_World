@@ -472,11 +472,12 @@ int main() {
 
 	srand(time(NULL));
 
+	system("cls");
 	cout << "Введите количество игроков (Доступно - 1): ";
 	cin >> users;
+	system("cls");
 	cout << "Введите количество ботов (Доступно - 1): ";
 	cin >> bots;
-
 	system("cls");
 	user = 1;
 	cout << " --------------" << endl;
@@ -526,46 +527,30 @@ int main() {
 		int mode = 1;
 		system("cls");
 		print_world(world);
-		cout << "\n-----------------------------------------------------------------------" << endl;
-		cout << "В - занять верхнюю точку     ВВ - перевести курсор выше\nН - занять нижнюю точку      НН - перевести курсор ниже\nЛ - занять левую точку       ЛЛ - перевести курсор левее\nП - занять правую точку      ПП - перевести курсор правее" << endl;
-		cout << "-----------------------------------------------------------------------" << endl;
+		cout << endl;
+		cout << " ---------------------------------------------------------" << endl;
+		cout << "|             Перемещение и захват территорий             " << endl;
+		cout << " ---------------------------------------------------------" << endl;
+		cout << "В - занять верхнюю точку     ВВ - перевести курсор выше   " << endl;
+		cout << "Н - занять нижнюю точку      НН - перевести курсор ниже   " << endl;
+		cout << "Л - занять левую точку       ЛЛ - перевести курсор левее  " << endl;
+		cout << "П - занять правую точку      ПП - перевести курсор правее " << endl;
+		cout << " ---------------------------------------------------------" << endl;
+		cout << "" << endl;
+		cout << "" << endl;
+		cout << " ---------------------------------------------------------" << endl;
+		cout << "                        Информация                       " << endl;
+		cout << " ---------------------------------------------------------" << endl;
 		cout << "Курсор сейчас на: " << endl;
 		cout << "X: " << Xcapital + 1<< " | Y: " << Ycapital + 1<< endl;
-		cout << "-----------------------------------------------------------------------" << endl;
+		cout << " ---------------------------------------------------------" << endl;
+		cout << "КЦ - завершить ход" << endl;
+		cout << " ---------------------------------------------------------" << endl;
 		cout << "Ответ: ";
 		cin >> answer;
 		if (answer == "В" || answer == "Н" || answer == "Л" || answer == "П") {
 			copy_world(world, prev_world);
 			next_generation(world, prev_world, answer, Xcapital, Ycapital, mode, Xbot, Ybot, DirectBot, whileStop);
-			//
-			if (checkPlayers != 0) { //TODO:Бот не играет (не связано с добавлением проверки игроков на карте
-				mode = 2;
-				int Zet = Xbot;
-				int Tez = Ybot;
-				Xbot = Zet;
-				Ybot = Tez;
-				int direction = rand() % 3;
-				if (direction == 1) {
-					int amount = rand() % 3;
-					if (amount == 1) {
-						DirectBot = 1;
-					}
-					else {
-						DirectBot = 3;
-					}
-				}
-				else {
-					int amount = rand() % 3;
-					if (amount == 1) {
-						DirectBot = 2;
-					}
-					else {
-						DirectBot = 4;
-					}
-				}
-				copy_world(world, prev_world);
-				next_generation(world, prev_world, answer, Xcapital, Ycapital, mode, Xbot, Ybot, DirectBot, whileStop);
-			}
 		}
 		else if (answer == "ВВ" || answer == "НН" || answer == "ЛЛ" || answer == "ПП") {
 			point p;
@@ -596,6 +581,36 @@ int main() {
 				if (p.is_live == 1) {
 					Xcapital = Xcapital + 1;
 				}
+			}
+		}
+		else if (answer == "КЦ") {
+			if (checkPlayers != 0) { //TODO:Бот не играет (не связано с добавлением проверки игроков на карте
+				mode = 2;
+				int Zet = Xbot;
+				int Tez = Ybot;
+				Xbot = Zet;
+				Ybot = Tez;
+				int direction = rand() % 3;
+				if (direction == 1) {
+					int amount = rand() % 3;
+					if (amount == 1) {
+						DirectBot = 1;
+					}
+					else {
+						DirectBot = 3;
+					}
+				}
+				else {
+					int amount = rand() % 3;
+					if (amount == 1) {
+						DirectBot = 2;
+					}
+					else {
+						DirectBot = 4;
+					}
+				}
+				copy_world(world, prev_world);
+				next_generation(world, prev_world, answer, Xcapital, Ycapital, mode, Xbot, Ybot, DirectBot, whileStop);
 			}
 		}
 	}
