@@ -17,12 +17,90 @@
 using namespace std;
 
 int Xbot, Ybot;
+int playerOnMap = 0;
 
 /* Ширина игрового поля */
 #define __WORLD_HEIGHT__ 5
 
 /* Высота игрового поля */
 #define __WORLD_WIDTH__ 5
+
+void startProgram() {
+	int timer = 150;
+	int startProgramAnswer;
+
+	cout << "" << endl;
+	cout << "" << endl;
+	Sleep(timer);
+	cout << "___________________________________AA_____________ " << endl;
+	Sleep(timer);
+	cout << "_____________________88__________8800_____________ " << endl;
+	Sleep(timer);
+	cout << "_____________________00((______AA0000_____________ " << endl;
+	Sleep(timer);
+	cout << "___________________000088____!!000000;;___________ " << endl;
+	Sleep(timer);
+	cout << "_______________!!00000088____0000000000___________ " << endl;
+	Sleep(timer);
+	cout << "_______________0000000088____0000000000___________ " << endl;
+	Sleep(timer);
+	cout << "_____________880000000088____0000000000____QQ_____ " << endl;
+	Sleep(timer);
+	cout << "_____''00____000000000000____88000000AA____88AA___ " << endl;
+	Sleep(timer);
+	cout << "___::0000____8800000000________558822______0000___ " << endl;
+	Sleep(timer);
+	cout << "___000000______880000____________________88000088_ " << endl;
+	Sleep(timer);
+	cout << "_2200000022______________________________00000000_ " << endl;
+	Sleep(timer);
+	cout << "_8800000000____________________________2200000000_ " << endl;
+	Sleep(timer);
+	cout << "_8800000088____________________________::00000088_ " << endl;
+	Sleep(timer);
+	cout << "___000000______00000000000000000088______880088___ " << endl;
+	Sleep(timer);
+	cout << "_____________000000000000000000000000((___________ " << endl;
+	Sleep(timer);
+	cout << "___________0000000000000000000000000000___________ " << endl;
+	Sleep(timer);
+	cout << "___________0000000000000000000000000000___________ " << endl;
+	Sleep(timer);
+	cout << "___________0000000000000000000000000000___________ " << endl;
+	Sleep(timer);
+	cout << "___________0000000000000000000000000000___________ " << endl;
+	Sleep(timer);
+	cout << "___________88000000000000000000000000;;___________ " << endl;
+	Sleep(timer);
+	cout << "_____________0000000000000000000000AA_____________ " << endl;
+	Sleep(timer);
+	cout << "_______________00000000000000000088_______________ " << endl;
+	Sleep(timer);
+	cout << "_________________00000000000000**_________________ " << endl;
+	Sleep(timer);
+	cout << "___________________0000000088_____________________ " << endl;
+	Sleep(timer);
+	cout << "_____________________0000++_______________________ " << endl;
+	Sleep(timer);
+	cout << "" << endl;
+	cout << "" << endl;
+	Sleep(2000);
+	system("cls");
+
+	cout << " --------------------------------------" << endl;
+	cout << "| 1 - Начать игру | 99 - Выход из игры |" << endl;
+	cout << "|--------------------------------------|" << endl;
+	cout << "| Версия игры: 0.1.0001                |" << endl;
+	cout << "| Автор: Jourloy (jourloy@yandex.ru)   |" << endl;
+	cout << " --------------------------------------" << endl;
+	cout << "\nОтвет: ";
+	cin >> startProgramAnswer;
+	if (startProgramAnswer == 99) {
+		exit(0);
+	}
+	system("cls");
+
+}
 
 // Cтруктура для хранения состояние клетки
 struct point {
@@ -161,10 +239,9 @@ void copy_world(point src[][__WORLD_HEIGHT__], point dest[][__WORLD_HEIGHT__])
 /*
  * Сгенерировать следующее поколение игрового мира
  */
-void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD_HEIGHT__], string answer, int Xcapital, int Ycapital, int mode, int Xbot, int Ybot, int DirectBot, int whileStop) //TODO: Не могу создать трейти раз над собой город
+void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD_HEIGHT__], string answer, int Xcapital, int Ycapital, int mode, int Xbot, int Ybot, int DirectBot, int whileStop)
 {
 	unsigned int i, j;
-	unsigned int live_nb;
 	point p;
 	string k;
 
@@ -359,9 +436,36 @@ void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD
 	}
 }
 
+/*
+* Проверка всех клеток на занятность
+*/
+int testWorld(point world[][__WORLD_HEIGHT__]) {
+
+	unsigned int i, j;
+
+	for (i = 0; i < __WORLD_WIDTH__; i++) {
+		for (j = 0; j < __WORLD_HEIGHT__; j++) {
+			if (world[i][j].is_live == 1) {
+				playerOnMap = 1;
+			}
+			else if (world[i][j].is_live == 2 && playerOnMap == 0) {
+				playerOnMap = 2;
+			}
+			else if (world[i][j].is_live == 2 && playerOnMap == 1) {
+				playerOnMap = 60;
+			}
+		}
+	}
+	return playerOnMap;
+}
+
 int main() {
+	int checkPlayers;
+
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
+
+	startProgram();
 
 	int Xcapital, Ycapital;
 	int user, users, bots;
@@ -401,6 +505,20 @@ int main() {
 
 	init_world(world, user, Xcapital, Ycapital, bots);
 	while (true) {
+		int livePlayers = testWorld(world);
+
+		if (livePlayers == 1) {
+			checkPlayers = 0;
+		}
+		else if (livePlayers == 2) {
+			system("cls");
+			cout << "Игра окончена";
+			exit(0);
+		}
+		else if (livePlayers == 60) {
+			int checkPlayers = 1;
+		}
+
 		int whileStop = 0;
 		int DirectBot = 0;
 
@@ -409,7 +527,7 @@ int main() {
 		system("cls");
 		print_world(world);
 		cout << "\n-----------------------------------------------------------------------" << endl;
-		cout << "В - занять верхнюю точку     ВВ - перевести курсор выше\nН - занять нижнюю точку     НН - перевести курсор ниже\nЛ - занять левую точку     ЛЛ - перевести курсор левее\nП - занять правую точку     ПП - перевести курсор правее" << endl;
+		cout << "В - занять верхнюю точку     ВВ - перевести курсор выше\nН - занять нижнюю точку      НН - перевести курсор ниже\nЛ - занять левую точку       ЛЛ - перевести курсор левее\nП - занять правую точку      ПП - перевести курсор правее" << endl;
 		cout << "-----------------------------------------------------------------------" << endl;
 		cout << "Курсор сейчас на: " << endl;
 		cout << "X: " << Xcapital + 1<< " | Y: " << Ycapital + 1<< endl;
@@ -420,32 +538,34 @@ int main() {
 			copy_world(world, prev_world);
 			next_generation(world, prev_world, answer, Xcapital, Ycapital, mode, Xbot, Ybot, DirectBot, whileStop);
 			//
-			mode = 2;
-			int Zet = Xbot;
-			int Tez = Ybot;
-			Xbot = Zet;
-			Ybot = Tez;
-			int direction = rand() % 3;
-			if (direction == 1) {
-				int amount = rand() % 3;
-				if (amount == 1) {
-					DirectBot = 1;
+			if (checkPlayers != 0) { //TODO:Бот не играет (не связано с добавлением проверки игроков на карте
+				mode = 2;
+				int Zet = Xbot;
+				int Tez = Ybot;
+				Xbot = Zet;
+				Ybot = Tez;
+				int direction = rand() % 3;
+				if (direction == 1) {
+					int amount = rand() % 3;
+					if (amount == 1) {
+						DirectBot = 1;
+					}
+					else {
+						DirectBot = 3;
+					}
 				}
 				else {
-					DirectBot = 3;
+					int amount = rand() % 3;
+					if (amount == 1) {
+						DirectBot = 2;
+					}
+					else {
+						DirectBot = 4;
+					}
 				}
+				copy_world(world, prev_world);
+				next_generation(world, prev_world, answer, Xcapital, Ycapital, mode, Xbot, Ybot, DirectBot, whileStop);
 			}
-			else {
-				int amount = rand() % 3;
-				if (amount == 1) {
-					DirectBot = 2;
-				}
-				else {
-					DirectBot = 4;
-				}
-			}
-			copy_world(world, prev_world);
-			next_generation(world, prev_world, answer, Xcapital, Ycapital, mode, Xbot, Ybot, DirectBot, whileStop);
 		}
 		else if (answer == "ВВ" || answer == "НН" || answer == "ЛЛ" || answer == "ПП") {
 			point p;
@@ -481,4 +601,3 @@ int main() {
 	}
 	system("pause");
 }
-//TODO: Правила игры "жизнь" дают о себе знать
