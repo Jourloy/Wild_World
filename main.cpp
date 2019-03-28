@@ -20,7 +20,7 @@ int Xbot, Ybot;
 int playerOnMap = 0;
 
 /* Ширина игрового поля */
-#define __WORLD_HEIGHT__ 237
+#define __WORLD_HEIGHT__ 58
 
 /* Высота игрового поля */
 #define __WORLD_WIDTH__ 50
@@ -110,30 +110,47 @@ struct point {
 /*
  * Создание карты при помощи случайных чисел
  */
-int init_world(point world[][__WORLD_HEIGHT__], int user, int Xcapital, int Ycapital, int bots)
+void init_world(point world[][__WORLD_HEIGHT__], int user, int Xcapital, int Ycapital, int bots)
 {
-	if (user == 1 && bots == 1) {
-		int i, j;
+	int i, j;
+	int Xbot; 
+	int Ybot;
 
-		i = rand() % 238;
-		j = rand() % 51;
+	i = rand() % 59;
+	j = rand() % 51;
 
-		if (i == Xcapital) {
-			while (i == Xcapital) {
-				i = rand() % 238;
+	if (i == Xcapital) {
+		while (i == Xcapital) {
+			i = rand() % 59;
+		}
+	} 
+
+	if (j == Ycapital) {
+		while (j == Ycapital) {
+			j = rand() % 51;
+		}
+	}
+
+	Xbot = i;
+	Ybot = j;
+
+	for (i = 0; i < __WORLD_WIDTH__; i++) {
+		for (j = 0; j < __WORLD_HEIGHT__; j++) {
+			if (i == Xbot) {
+				if (j == Ybot) {
+					world[i][j].is_live = 2;
+				}
+				else {
+					world[i][j].is_live = 0;
+				}
 			}
-		} 
-
-		if (j == Ycapital) {
-			while (j == Ycapital) {
-				j = rand() % 51;
+			else {
+				world[i][j].is_live = 0;
 			}
 		}
-		
-		world[j][i].is_live = 2;
-		world[Ycapital][Xcapital].is_live = 1;
 	}
-	return Xbot, Ybot;
+
+	world[Ycapital][Xcapital].is_live = 1;
 }
 
 /*
@@ -143,8 +160,16 @@ void print_world(point world[][__WORLD_HEIGHT__])
 {
 	AnsiOut ao;
 	unsigned int i, j;
+	cout << "    001|002|003|004|005|006|007|008|009|010|011|012|013|014|015|016|017|018|019|020|021|022|023|024|025|026|027|028|029|030|031|032|033|034|035|036|037|038|039|040|041|042|043|044|045|046|047|048|049|050|051|052|053|054|055|056|057|058" << endl;
 	for (i = 0; i < __WORLD_WIDTH__; i++) {
+		if (i + 1 < 10) {
+			cout << i + 1 << "  |";
+		}
+		else if (i + 1 < 100) {
+			cout << i + 1 << " |";
+		}
 		for (j = 0; j < __WORLD_HEIGHT__; j++) {
+			cout << ' ';
 			if (world[i][j].is_live == 1) {
 				ao.textAttr(ANSI_LRED);
 				cout << '1';
@@ -158,6 +183,7 @@ void print_world(point world[][__WORLD_HEIGHT__])
 			else {
 				cout << '_';
 			}
+			cout << "  ";
 		}
 		cout << endl;
 	}
@@ -428,7 +454,7 @@ int main() {
 
 	system("cls");
 
-	Xcapital = rand() % 238;
+	Xcapital = rand() % 59;
 	Ycapital = rand() % 51;
 
 	system("cls");
@@ -473,7 +499,6 @@ int main() {
 		int mode = 1;
 		system("cls");
 		print_world(world);
-		cout << endl;
 		cout << " ---------------------------------------------------------" << endl;
 		cout << "             Перемещение и захват территорий             " << endl;
 		cout << " ---------------------------------------------------------" << endl;
