@@ -20,10 +20,10 @@ int Xbot, Ybot;
 int playerOnMap = 0;
 
 /* Ширина игрового поля */
-#define __WORLD_HEIGHT__ 5
+#define __WORLD_HEIGHT__ 237
 
 /* Высота игрового поля */
-#define __WORLD_WIDTH__ 5
+#define __WORLD_WIDTH__ 50
 
 void startProgram() {
 	int timer = 150;
@@ -108,37 +108,29 @@ struct point {
 };
 
 /*
- * Инициализация первого поколения игры псевдослучайными значениями
+ * Создание карты при помощи случайных чисел
  */
-int init_world(point world[][__WORLD_HEIGHT__], int user, int Xcapital, int Ycapital, int bots) //TODO: Невозможна генерация бота надо мной
+int init_world(point world[][__WORLD_HEIGHT__], int user, int Xcapital, int Ycapital, int bots)
 {
 	if (user == 1 && bots == 1) {
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> dis(1, 10000);
+		int i, j;
 
-		unsigned int i, j;
-		unsigned int a = 0;
-		
-		for (i = 0; i < __WORLD_WIDTH__; i++) {
-			for (j = 0; j < __WORLD_HEIGHT__; j++) {
-				unsigned int num = dis(gen);
-				if (num % 2 == 0) {
-					if (a == 0 && i != Ycapital && j != Xcapital) {
-						Xbot = j;
-						Ybot = i;
-						world[i][j].is_live = 2;
-						a = 1;
-					}
-					else {
-						world[i][j].is_live = 0;
-					}
-				}
-				else {
-					world[i][j].is_live = 0;
-				}
+		i = rand() % 238;
+		j = rand() % 51;
+
+		if (i == Xcapital) {
+			while (i == Xcapital) {
+				i = rand() % 238;
+			}
+		} 
+
+		if (j == Ycapital) {
+			while (j == Ycapital) {
+				j = rand() % 51;
 			}
 		}
+		
+		world[j][i].is_live = 2;
 		world[Ycapital][Xcapital].is_live = 1;
 	}
 	return Xbot, Ybot;
@@ -155,18 +147,17 @@ void print_world(point world[][__WORLD_HEIGHT__])
 		for (j = 0; j < __WORLD_HEIGHT__; j++) {
 			if (world[i][j].is_live == 1) {
 				ao.textAttr(ANSI_LRED);
-				cout << 'A';
+				cout << '1';
 				ao.textAttrDefault();
 			}
 			else if (world[i][j].is_live == 2) {
 				ao.textAttr(ANSI_LBLUE);
-				cout << 'B';
+				cout << '2';
 				ao.textAttrDefault();
 			}
 			else {
-				cout << '~';
+				cout << '_';
 			}
-			cout << ' ';
 		}
 		cout << endl;
 	}
@@ -415,69 +406,30 @@ void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD
 	}
 }
 
-/*
-* Проверка всех клеток на занятность
-*/
-int testWorld(point world[][__WORLD_HEIGHT__]) {
-
-	unsigned int i, j;
-
-	for (i = 0; i < __WORLD_WIDTH__; i++) {
-		for (j = 0; j < __WORLD_HEIGHT__; j++) {
-			if (world[i][j].is_live == 1) {
-				playerOnMap = 1;
-			}
-			else if (world[i][j].is_live == 2 && playerOnMap == 0) {
-				playerOnMap = 2;
-			}
-			else if (world[i][j].is_live == 2 && playerOnMap == 1) {
-				playerOnMap = 60;
-			}
-		}
-	}
-	return playerOnMap;
-}
-
 int main() {
-	int checkPlayers;
-
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
-	startProgram();
+	int checkPlayers, Xcapital, Ycapital, user, users, bots;
 
-	int Xcapital, Ycapital;
-	int user, users, bots;
+	startProgram();
 
 	srand(time(NULL));
 
-	system("cls");
-	cout << "Введите количество игроков (Доступно - 1): ";
-	cin >> users;
-	system("cls");
-	cout << "Введите количество ботов (Доступно - 1): ";
-	cin >> bots;
-	system("cls");
 	user = 1;
-	cout << " --------------" << endl;
-	cout << "| #  1 2 3 4 5 | <-- X" << endl;
-	cout << "|              |" << endl;
-	cout << "| 1  ~ ~ ~ ~ ~ |" << endl;
-	cout << "| 2  ~ ~ ~ ~ ~ |" << endl;
-	cout << "| 3  ~ ~ ~ ~ ~ |" << endl;
-	cout << "| 4  ~ ~ ~ ~ ~ |" << endl;
-	cout << "| 5  ~ ~ ~ ~ ~ |" << endl;
-	cout << " --------------" << endl;
-	cout << "  ^" << endl;
-	cout << "  |" << endl;
-	cout << "  Y\n\n" << endl;
-	cout << "Выберите клетку-столицу" << endl;
-	cout << "Координата Х: ";
-	cin >> Xcapital;
-	Xcapital -= 1;
-	cout << "Координата Y: ";
-	cin >> Ycapital;
-	Ycapital -= 1;
+	bots = 1;
+	users = 1;
+
+	cout << " --------------------------------------" << endl;
+	cout << "|          Выбор режима игры           |" << endl;
+	cout << "|--------------------------------------|" << endl;
+	cout << "| 1 - Игра с другом |                  |" << endl;
+	cout << " --------------------------------------" << endl;
+
+	system("cls");
+
+	Xcapital = rand() % 238;
+	Ycapital = rand() % 51;
 
 	system("cls");
 	point world[__WORLD_WIDTH__][__WORLD_HEIGHT__];
@@ -485,17 +437,32 @@ int main() {
 
 	init_world(world, user, Xcapital, Ycapital, bots);
 	while (true) {
-		int livePlayers = testWorld(world); //TODO: Ваще не работает
 
-		if (livePlayers == 1) {
+		unsigned int i, j;
+
+		for (i = 0; i < __WORLD_WIDTH__; i++) {
+			for (j = 0; j < __WORLD_HEIGHT__; j++) {
+				if (world[i][j].is_live == 1) {
+					playerOnMap = 1;
+				}
+				else if (world[i][j].is_live == 2 && playerOnMap == 0) {
+					playerOnMap = 2;
+				}
+				else if (world[i][j].is_live == 2 && playerOnMap == 1) {
+					playerOnMap = 60;
+				}
+			}
+		}
+
+		if (playerOnMap == 1) {
 			checkPlayers = 0;
 		}
-		else if (livePlayers == 2) {
+		else if (playerOnMap == 2) {
 			system("cls");
 			cout << "Игра окончена";
 			exit(0);
 		}
-		else if (livePlayers == 60) {
+		else if (playerOnMap == 60) {
 			int checkPlayers = 1;
 		}
 
@@ -560,36 +527,7 @@ int main() {
 			}
 		}
 		else if (answer == "КЦ") {
-			cout << "1" << endl;
-			system("pause");
-			if (checkPlayers != 0) { //TODO:Бот не играет (не связано с добавлением проверки игроков на карте
-				cout << "2" << endl;
-				system("pause");
-				mode = 2;
-				int direction = rand() % 3;
-				if (direction == 1) {
-					cout << "3" << endl;
-					system("pause");
-					int amount = rand() % 3;
-					if (amount == 1) {
-						DirectBot = 1;
-					}
-					else {
-						DirectBot = 3;
-					}
-				}
-				else {
-					int amount = rand() % 3;
-					if (amount == 1) {
-						DirectBot = 2;
-					}
-					else {
-						DirectBot = 4;
-					}
-				}
-				copy_world(world, prev_world);
-				next_generation(world, prev_world, answer, Xcapital, Ycapital, mode, Xbot, Ybot, DirectBot, whileStop);
-			}
+			
 		}
 	}
 	system("pause");
