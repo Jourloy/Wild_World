@@ -462,6 +462,11 @@ int main() {
 	point prev_world[__WORLD_WIDTH__][__WORLD_HEIGHT__];
 
 	init_world(world, user, Xcapital, Ycapital, bots);
+
+	int population = 0;
+	population = 1000;
+	int prevPointOfFirstPl;
+
 	while (true) {
 
 		unsigned int i, j;
@@ -498,6 +503,30 @@ int main() {
 		string answer = "";
 		int mode = 1;
 		system("cls");
+
+		unsigned int q, w;
+
+		int pointOfFirstPl = 0;
+		int pointOfSecondPl = 0;
+		for (q = 0; q < __WORLD_WIDTH__; q++) {
+			for (w = 0; w < __WORLD_HEIGHT__; w++) {
+				if (world[q][w].is_live == 1) {
+					pointOfFirstPl += 1;
+				}
+				else if (world[q][w].is_live == 2) {
+					pointOfSecondPl += 1;
+				}
+			}
+		}
+
+		if (pointOfFirstPl != 1) {
+			if (prevPointOfFirstPl < pointOfFirstPl) {
+				population = population - 800 * prevPointOfFirstPl;
+			}
+		}
+
+		prevPointOfFirstPl = pointOfFirstPl;
+
 		print_world(world);
 		cout << " ---------------------------------------------------------" << endl;
 		cout << "             Перемещение и захват территорий             " << endl;
@@ -511,14 +540,20 @@ int main() {
 		cout << " ---------------------------------------------------------" << endl;
 		cout << "Курсор сейчас на: " << endl;
 		cout << "X: " << Xcapital + 1<< " | Y: " << Ycapital + 1<< endl;
+		cout << "Количество ваших городов:" << endl;
+		cout << pointOfFirstPl << endl;
+		cout << "Население:" << endl;
+		cout << population << endl;
 		cout << " ---------------------------------------------------------" << endl;
 		cout << "КЦ - завершить ход" << endl;
 		cout << " ---------------------------------------------------------" << endl;
 		cout << "Ответ: ";
 		cin >> answer;
 		if (answer == "В" || answer == "Н" || answer == "Л" || answer == "П") {
-			copy_world(world, prev_world);
-			next_generation(world, prev_world, answer, Xcapital, Ycapital, mode, Xbot, Ybot, DirectBot, whileStop);
+			if (population - 800 * prevPointOfFirstPl > 1) {
+				copy_world(world, prev_world);
+				next_generation(world, prev_world, answer, Xcapital, Ycapital, mode, Xbot, Ybot, DirectBot, whileStop);
+			}
 		}
 		else if (answer == "ВВ" || answer == "НН" || answer == "ЛЛ" || answer == "ПП") {
 			point p;
@@ -552,7 +587,7 @@ int main() {
 			}
 		}
 		else if (answer == "КЦ") {
-			
+			population = population + 990 + 10 * pointOfFirstPl;
 		}
 	}
 	system("pause");
