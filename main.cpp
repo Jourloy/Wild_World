@@ -25,9 +25,14 @@ int playerOnMap = 0;
 /* Высота игрового поля */
 #define __WORLD_WIDTH__ 50
 
+/*
+* Запуск "логотипа" игры, а также показ начального меню
+* Команды:
+* 1 - Запуск программы
+* 99 - Завершение программы
+*/
 void startProgram() {
 	int timer = 150;
-	int startProgramAnswer;
 
 	cout << "" << endl;
 	cout << "" << endl;
@@ -93,10 +98,15 @@ void startProgram() {
 	cout << "| Версия игры: 0.1                     |" << endl;
 	cout << "| Автор: Jourloy (jourloy@yandex.ru)   |" << endl;
 	cout << " --------------------------------------" << endl;
-	cout << "\nОтвет: ";
-	cin >> startProgramAnswer;
-	if (startProgramAnswer == 99) {
-		exit(0);
+	int startProgramAnswer = 0;
+
+	while (startProgramAnswer != 1 or startProgramAnswer != 99) {
+		cout << "\nОтвет: ";
+		cin >> startProgramAnswer;
+
+		if (startProgramAnswer != 1 or startProgramAnswer != 99) {
+			cout << "Вы ввели " << startProgramAnswer << ", но такого варианта нет!" << endl;
+		}
 	}
 	system("cls");
 
@@ -154,7 +164,7 @@ void init_world(point world[][__WORLD_HEIGHT__], int user, int Xcapital, int Yca
 }
 
 /*
- * Вывести на экран игровое поле
+ * Вывод на экран игрового поля
 */
 void print_world(point world[][__WORLD_HEIGHT__])
 {
