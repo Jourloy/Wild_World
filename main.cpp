@@ -19,17 +19,17 @@ using namespace std;
 int Xbot, Ybot;
 int playerOnMap = 0;
 
-/* Ширина игрового поля */
+/* РЁРёСЂРёРЅР° РёРіСЂРѕРІРѕРіРѕ РїРѕР»СЏ */
 #define __WORLD_HEIGHT__ 58
 
-/* Высота игрового поля */
+/* Р’С‹СЃРѕС‚Р° РёРіСЂРѕРІРѕРіРѕ РїРѕР»СЏ */
 #define __WORLD_WIDTH__ 50
 
 /*
-* Запуск "логотипа" игры, а также показ начального меню
-* Команды:
-* 1 - Запуск программы
-* 99 - Завершение программы
+* Р—Р°РїСѓСЃРє "Р»РѕРіРѕС‚РёРїР°" РёРіСЂС‹, Р° С‚Р°РєР¶Рµ РїРѕРєР°Р· РЅР°С‡Р°Р»СЊРЅРѕРіРѕ РјРµРЅСЋ
+* РљРѕРјР°РЅРґС‹:
+* 1 - Р—Р°РїСѓСЃРє РїСЂРѕРіСЂР°РјРјС‹
+* 99 - Р—Р°РІРµСЂС€РµРЅРёРµ РїСЂРѕРіСЂР°РјРјС‹
 */
 void startProgram() {
 	int timer = 150;
@@ -93,32 +93,32 @@ void startProgram() {
 	system("cls");
 
 	cout << " --------------------------------------" << endl;
-	cout << "| 1 - Начать игру | 99 - Выход из игры |" << endl;
+	cout << "| 1 - РќР°С‡Р°С‚СЊ РёРіСЂСѓ | 99 - Р’С‹С…РѕРґ РёР· РёРіСЂС‹ |" << endl;
 	cout << "|--------------------------------------|" << endl;
-	cout << "| Версия игры: 0.1                     |" << endl;
-	cout << "| Автор: Jourloy (jourloy@yandex.ru)   |" << endl;
+	cout << "| Р’РµСЂСЃРёСЏ РёРіСЂС‹: 0.1                     |" << endl;
+	cout << "| РђРІС‚РѕСЂ: Jourloy (jourloy@yandex.ru)   |" << endl;
 	cout << " --------------------------------------" << endl;
 	int startProgramAnswer = 0;
 
 	while (startProgramAnswer != 1 or startProgramAnswer != 99) {
-		cout << "\nОтвет: ";
+		cout << "\nРћС‚РІРµС‚: ";
 		cin >> startProgramAnswer;
 
 		if (startProgramAnswer != 1 or startProgramAnswer != 99) {
-			cout << "Вы ввели " << startProgramAnswer << ", но такого варианта нет!" << endl;
+			cout << "Р’С‹ РІРІРµР»Рё " << startProgramAnswer << ", РЅРѕ С‚Р°РєРѕРіРѕ РІР°СЂРёР°РЅС‚Р° РЅРµС‚!" << endl;
 		}
 	}
 	system("cls");
 
 }
 
-// Cтруктура для хранения состояние клетки
+// CС‚СЂСѓРєС‚СѓСЂР° РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЃРѕСЃС‚РѕСЏРЅРёРµ РєР»РµС‚РєРё
 struct point {
 	unsigned int is_live;
 };
 
 /*
- * Создание карты при помощи случайных чисел
+ * РЎРѕР·РґР°РЅРёРµ РєР°СЂС‚С‹ РїСЂРё РїРѕРјРѕС‰Рё СЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР»
  */
 void init_world(point world[][__WORLD_HEIGHT__], int user, int Xcapital, int Ycapital, int bots)
 {
@@ -164,7 +164,7 @@ void init_world(point world[][__WORLD_HEIGHT__], int user, int Xcapital, int Yca
 }
 
 /*
- * Вывод на экран игрового поля
+ * Р’С‹РІРѕРґ РЅР° СЌРєСЂР°РЅ РёРіСЂРѕРІРѕРіРѕ РїРѕР»СЏ
 */
 void print_world(point world[][__WORLD_HEIGHT__])
 {
@@ -200,7 +200,7 @@ void print_world(point world[][__WORLD_HEIGHT__])
 }
 
 /*
- * Получение координат соседей точки (окрестность мура 1 порядка)
+ * РџРѕР»СѓС‡РµРЅРёРµ РєРѕРѕСЂРґРёРЅР°С‚ СЃРѕСЃРµРґРµР№ С‚РѕС‡РєРё (РѕРєСЂРµСЃС‚РЅРѕСЃС‚СЊ РјСѓСЂР° 1 РїРѕСЂСЏРґРєР°)
 */
 void read_point_neighbors(signed int nb[][2], int Xcapital, int Ycapital)
 {
@@ -220,7 +220,7 @@ void read_point_neighbors(signed int nb[][2], int Xcapital, int Ycapital)
 }
 
 /*
- * Количество живых соседей у клетки с координатами x, y
+ * РљРѕР»РёС‡РµСЃС‚РІРѕ Р¶РёРІС‹С… СЃРѕСЃРµРґРµР№ Сѓ РєР»РµС‚РєРё СЃ РєРѕРѕСЂРґРёРЅР°С‚Р°РјРё x, y
  */
 unsigned int count_live_neighbors(point world[][__WORLD_HEIGHT__], int Xcapital, int Ycapital)
 {
@@ -251,7 +251,7 @@ unsigned int count_live_neighbors(point world[][__WORLD_HEIGHT__], int Xcapital,
 }
 
 /*
- * Копирование игрового мира. Используется для сохранения предыдущего поколения
+ * РљРѕРїРёСЂРѕРІР°РЅРёРµ РёРіСЂРѕРІРѕРіРѕ РјРёСЂР°. РСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ РїСЂРµРґС‹РґСѓС‰РµРіРѕ РїРѕРєРѕР»РµРЅРёСЏ
 */
 void copy_world(point src[][__WORLD_HEIGHT__], point dest[][__WORLD_HEIGHT__])
 {
@@ -264,7 +264,7 @@ void copy_world(point src[][__WORLD_HEIGHT__], point dest[][__WORLD_HEIGHT__])
 }
 
 /*
- * Сгенерировать следующее поколение игрового мира
+ * РЎРіРµРЅРµСЂРёСЂРѕРІР°С‚СЊ СЃР»РµРґСѓСЋС‰РµРµ РїРѕРєРѕР»РµРЅРёРµ РёРіСЂРѕРІРѕРіРѕ РјРёСЂР°
  */
 void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD_HEIGHT__], string answer, int Xcapital, int Ycapital, int mode, int Xbot, int Ybot, int DirectBot, int whileStop)
 {
@@ -273,15 +273,15 @@ void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD
 	string k;
 
 	if (mode == 1) {
-		if (answer == "В") {
+		if (answer == "Р’") {
 			p = prev_world[Ycapital-1][Xcapital];
 			if(p.is_live == 0) {
 				world[Ycapital - 1][Xcapital].is_live = 1;
 			}
 			else if (p.is_live == 2) {
-				cout << "Начать войну?"; //TODO: Почему здесь CHAR? Нужно вывести длинную строку!
+				cout << "РќР°С‡Р°С‚СЊ РІРѕР№РЅСѓ?"; //TODO: РџРѕС‡РµРјСѓ Р·РґРµСЃСЊ CHAR? РќСѓР¶РЅРѕ РІС‹РІРµСЃС‚Рё РґР»РёРЅРЅСѓСЋ СЃС‚СЂРѕРєСѓ!
 				cin >> k;
-				if (k == "Да") {
+				if (k == "Р”Р°") {
 					world[Ycapital - 1][Xcapital].is_live = 1;
 				}
 				else {
@@ -289,19 +289,19 @@ void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD
 				}
 			}
 			else {
-				cout << "Ход пропущен" << endl;
+				cout << "РҐРѕРґ РїСЂРѕРїСѓС‰РµРЅ" << endl;
 				system("pause");
 			}
 		}
-		else if (answer == "Л") {
+		else if (answer == "Р›") {
 			p = prev_world[Ycapital][Xcapital - 1];
 			if (p.is_live == 0) {
 				world[Ycapital][Xcapital - 1].is_live = 1;
 			}
 			else if (p.is_live == 2) {
-				cout << "Начать войну?"; //TODO: Почему здесь CHAR? Нужно вывести длинную строку!
+				cout << "РќР°С‡Р°С‚СЊ РІРѕР№РЅСѓ?"; //TODO: РџРѕС‡РµРјСѓ Р·РґРµСЃСЊ CHAR? РќСѓР¶РЅРѕ РІС‹РІРµСЃС‚Рё РґР»РёРЅРЅСѓСЋ СЃС‚СЂРѕРєСѓ!
 				cin >> k;
-				if (k == "Да") {
+				if (k == "Р”Р°") {
 					world[Ycapital][Xcapital - 1].is_live = 1;
 				}
 				else {
@@ -309,19 +309,19 @@ void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD
 				}
 			}
 			else {
-				cout << "Ход пропущен" << endl;
+				cout << "РҐРѕРґ РїСЂРѕРїСѓС‰РµРЅ" << endl;
 				system("pause");
 			}
 		}
-		else if (answer == "П") {
+		else if (answer == "Рџ") {
 			p = prev_world[Ycapital][Xcapital + 1];
 			if (p.is_live == 0) {
 				world[Ycapital][Xcapital + 1].is_live = 1;
 			}
 			else if (p.is_live == 2) {
-				cout << "Начать войну?"; //TODO: Почему здесь CHAR? Нужно вывести длинную строку!
+				cout << "РќР°С‡Р°С‚СЊ РІРѕР№РЅСѓ?"; //TODO: РџРѕС‡РµРјСѓ Р·РґРµСЃСЊ CHAR? РќСѓР¶РЅРѕ РІС‹РІРµСЃС‚Рё РґР»РёРЅРЅСѓСЋ СЃС‚СЂРѕРєСѓ!
 				cin >> k;
-				if (k == "Да") {
+				if (k == "Р”Р°") {
 					world[Ycapital][Xcapital + 1].is_live = 1;
 				}
 				else {
@@ -329,19 +329,19 @@ void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD
 				}
 			}
 			else {
-				cout << "Ход пропущен" << endl;
+				cout << "РҐРѕРґ РїСЂРѕРїСѓС‰РµРЅ" << endl;
 				system("pause");
 			}
 		}
-		else if (answer == "Н") {
+		else if (answer == "Рќ") {
 			p = prev_world[Ycapital + 1][Xcapital];
 			if (p.is_live == 0) {
 				world[Ycapital + 1][Xcapital].is_live = 1;
 			}
 			else if (p.is_live == 2) {
-				cout << "Начать войну?"; //TODO: Почему здесь CHAR? Нужно вывести длинную строку!
+				cout << "РќР°С‡Р°С‚СЊ РІРѕР№РЅСѓ?"; //TODO: РџРѕС‡РµРјСѓ Р·РґРµСЃСЊ CHAR? РќСѓР¶РЅРѕ РІС‹РІРµСЃС‚Рё РґР»РёРЅРЅСѓСЋ СЃС‚СЂРѕРєСѓ!
 				cin >> k;
-				if (k == "Да") {
+				if (k == "Р”Р°") {
 					world[Ycapital + 1][Xcapital].is_live = 1;
 				}
 				else {
@@ -349,7 +349,7 @@ void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD
 				}
 			}
 			else {
-				cout << "Ход пропущен" << endl;
+				cout << "РҐРѕРґ РїСЂРѕРїСѓС‰РµРЅ" << endl;
 				system("pause");
 			}
 		}
@@ -363,12 +363,12 @@ void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD
 			else if (p.is_live == 1) {
 				int war = rand() % 3;
 				if (war == 1) {
-					k = "Да";
+					k = "Р”Р°";
 				}
 				else {
-					k = "Нет";
+					k = "РќРµС‚";
 				}
-				if (k == "Да") {
+				if (k == "Р”Р°") {
 					world[Ybot - 1][Xbot].is_live = 2;
 				}
 				else {
@@ -384,12 +384,12 @@ void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD
 			else if (p.is_live == 1) {
 				int war = rand() % 3;
 				if (war == 1) {
-					k = "Да";
+					k = "Р”Р°";
 				}
 				else {
-					k = "Нет";
+					k = "РќРµС‚";
 				}
-				if (k == "Да") {
+				if (k == "Р”Р°") {
 					world[Ybot][Xbot - 1].is_live = 2;
 				}
 				else {
@@ -405,12 +405,12 @@ void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD
 			else if (p.is_live == 1) {
 				int war = rand() % 3;
 				if (war == 1) {
-					k = "Да";
+					k = "Р”Р°";
 				}
 				else {
-					k = "Нет";
+					k = "РќРµС‚";
 				}
-				if (k == "Да") {
+				if (k == "Р”Р°") {
 					world[Ybot][Xbot + 1].is_live = 2;
 				}
 				else {
@@ -426,12 +426,12 @@ void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD
 			else if (p.is_live == 1) {
 				int war = rand() % 3;
 				if (war == 1) {
-					k = "Да";
+					k = "Р”Р°";
 				}
 				else {
-					k = "Нет";
+					k = "РќРµС‚";
 				}
-				if (k == "Да") {
+				if (k == "Р”Р°") {
 					world[Ybot + 1][Xbot].is_live = 2;
 				}
 				else {
@@ -457,9 +457,9 @@ int main() {
 	users = 1;
 
 	cout << " --------------------------------------" << endl;
-	cout << "|          Выбор режима игры           |" << endl;
+	cout << "|          Р’С‹Р±РѕСЂ СЂРµР¶РёРјР° РёРіСЂС‹           |" << endl;
 	cout << "|--------------------------------------|" << endl;
-	cout << "| 1 - Игра с другом |                  |" << endl;
+	cout << "| 1 - РРіСЂР° СЃ РґСЂСѓРіРѕРј |                  |" << endl;
 	cout << " --------------------------------------" << endl;
 
 	system("cls");
@@ -500,7 +500,7 @@ int main() {
 		}
 		else if (playerOnMap == 2) {
 			system("cls");
-			cout << "Игра окончена";
+			cout << "РРіСЂР° РѕРєРѕРЅС‡РµРЅР°";
 			exit(0);
 		}
 		else if (playerOnMap == 60) {
@@ -539,56 +539,56 @@ int main() {
 
 		print_world(world);
 		cout << " ---------------------------------------------------------" << endl;
-		cout << "             Перемещение и захват территорий             " << endl;
+		cout << "             РџРµСЂРµРјРµС‰РµРЅРёРµ Рё Р·Р°С…РІР°С‚ С‚РµСЂСЂРёС‚РѕСЂРёР№             " << endl;
 		cout << " ---------------------------------------------------------" << endl;
-		cout << "В - занять верхнюю точку     ВВ - перевести курсор выше   " << endl;
-		cout << "Н - занять нижнюю точку      НН - перевести курсор ниже   " << endl;
-		cout << "Л - занять левую точку       ЛЛ - перевести курсор левее  " << endl;
-		cout << "П - занять правую точку      ПП - перевести курсор правее " << endl;
+		cout << "Р’ - Р·Р°РЅСЏС‚СЊ РІРµСЂС…РЅСЋСЋ С‚РѕС‡РєСѓ     Р’Р’ - РїРµСЂРµРІРµСЃС‚Рё РєСѓСЂСЃРѕСЂ РІС‹С€Рµ   " << endl;
+		cout << "Рќ - Р·Р°РЅСЏС‚СЊ РЅРёР¶РЅСЋСЋ С‚РѕС‡РєСѓ      РќРќ - РїРµСЂРµРІРµСЃС‚Рё РєСѓСЂСЃРѕСЂ РЅРёР¶Рµ   " << endl;
+		cout << "Р› - Р·Р°РЅСЏС‚СЊ Р»РµРІСѓСЋ С‚РѕС‡РєСѓ       Р›Р› - РїРµСЂРµРІРµСЃС‚Рё РєСѓСЂСЃРѕСЂ Р»РµРІРµРµ  " << endl;
+		cout << "Рџ - Р·Р°РЅСЏС‚СЊ РїСЂР°РІСѓСЋ С‚РѕС‡РєСѓ      РџРџ - РїРµСЂРµРІРµСЃС‚Рё РєСѓСЂСЃРѕСЂ РїСЂР°РІРµРµ " << endl;
 		cout << " ---------------------------------------------------------" << endl;
-		cout << "                        Информация                       " << endl;
+		cout << "                        РРЅС„РѕСЂРјР°С†РёСЏ                       " << endl;
 		cout << " ---------------------------------------------------------" << endl;
-		cout << "Курсор сейчас на: " << endl;
+		cout << "РљСѓСЂСЃРѕСЂ СЃРµР№С‡Р°СЃ РЅР°: " << endl;
 		cout << "X: " << Xcapital + 1<< " | Y: " << Ycapital + 1<< endl;
-		cout << "Количество ваших городов:" << endl;
+		cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ РІР°С€РёС… РіРѕСЂРѕРґРѕРІ:" << endl;
 		cout << pointOfFirstPl << endl;
-		cout << "Население:" << endl;
+		cout << "РќР°СЃРµР»РµРЅРёРµ:" << endl;
 		cout << population << endl;
 		cout << " ---------------------------------------------------------" << endl;
-		cout << "КЦ - завершить ход" << endl;
+		cout << "РљР¦ - Р·Р°РІРµСЂС€РёС‚СЊ С…РѕРґ" << endl;
 		cout << " ---------------------------------------------------------" << endl;
-		cout << "Ответ: ";
+		cout << "РћС‚РІРµС‚: ";
 		cin >> answer;
-		if (answer == "В" || answer == "Н" || answer == "Л" || answer == "П") {
+		if (answer == "Р’" || answer == "Рќ" || answer == "Р›" || answer == "Рџ") {
 			if (population - 800 * prevPointOfFirstPl > 1) {
 				copy_world(world, prev_world);
 				next_generation(world, prev_world, answer, Xcapital, Ycapital, mode, Xbot, Ybot, DirectBot, whileStop);
 			}
 		}
-		else if (answer == "ВВ" || answer == "НН" || answer == "ЛЛ" || answer == "ПП") {
+		else if (answer == "Р’Р’" || answer == "РќРќ" || answer == "Р›Р›" || answer == "РџРџ") {
 			point p;
-			if (answer == "ВВ") {
+			if (answer == "Р’Р’") {
 				copy_world(world, prev_world);
 				p = prev_world[Ycapital - 1][Xcapital];
 				if (p.is_live == 1) {
 					Ycapital = Ycapital - 1;
 				} 
 			}
-			else if (answer == "ЛЛ") {
+			else if (answer == "Р›Р›") {
 				copy_world(world, prev_world);
 				p = prev_world[Ycapital][Xcapital - 1];
 				if (p.is_live == 1) {
 					Xcapital = Xcapital - 1;
 				}
 			}
-			else if (answer == "НН") {
+			else if (answer == "РќРќ") {
 				copy_world(world, prev_world);
 				p = prev_world[Ycapital + 1][Xcapital];
 				if (p.is_live == 1) {
 					Ycapital = Ycapital + 1;
 				}
 			}
-			else if (answer == "ПП") {
+			else if (answer == "РџРџ") {
 				copy_world(world, prev_world);
 				p = prev_world[Ycapital][Xcapital];
 				if (p.is_live == 1) {
@@ -596,7 +596,7 @@ int main() {
 				}
 			}
 		}
-		else if (answer == "КЦ") {
+		else if (answer == "РљР¦") {
 			population = population + 990 + 10 * pointOfFirstPl;
 		}
 	}
