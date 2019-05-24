@@ -95,24 +95,26 @@ void startProgram() {
 	cout << " --------------------------------------" << endl;
 	cout << "| 1 - Начать игру | 99 - Выход из игры |" << endl;
 	cout << "|--------------------------------------|" << endl;
-	cout << "| Версия игры: 0.1                     |" << endl;
 	cout << "| Автор: Jourloy (jourloy@yandex.ru)   |" << endl;
 	cout << " --------------------------------------" << endl;
-	int startProgramAnswer = 0;
 
-	while (startProgramAnswer != 1 or startProgramAnswer != 99) {
+	int startProgramAnswer;
+
+	do {
 		cout << "\nОтвет: ";
 		cin >> startProgramAnswer;
 
-		if (startProgramAnswer != 1 or startProgramAnswer != 99) {
+		if (startProgramAnswer != 1 && startProgramAnswer != 99) {
 			cout << "Вы ввели " << startProgramAnswer << ", но такого варианта нет!" << endl;
 		}
-	}
+	} while (startProgramAnswer != 1 && startProgramAnswer != 99);
 	system("cls");
 
 }
 
-// Cтруктура для хранения состояние клетки
+/*
+* Cтруктура для хранения состояние клетки
+*/
 struct point {
 	unsigned int is_live;
 };
@@ -141,24 +143,27 @@ void init_world(point world[][__WORLD_HEIGHT__], int user, int Xcapital, int Yca
 		}
 	}
 
-	Xbot = i;
-	Ybot = j;
+	if (bots) {
+		Xbot = i;
+		Ybot = j;
 
-	for (i = 0; i < __WORLD_WIDTH__; i++) {
-		for (j = 0; j < __WORLD_HEIGHT__; j++) {
-			if (i == Xbot) {
-				if (j == Ybot) {
-					world[i][j].is_live = 2;
+		for (i = 0; i < __WORLD_WIDTH__; i++) {
+			for (j = 0; j < __WORLD_HEIGHT__; j++) {
+				if (i == Xbot) {
+					if (j == Ybot) {
+						world[i][j].is_live = 2;
+					}
+					else {
+						world[i][j].is_live = 0;
+					}
 				}
 				else {
 					world[i][j].is_live = 0;
 				}
 			}
-			else {
-				world[i][j].is_live = 0;
-			}
 		}
 	}
+	
 
 	world[Ycapital][Xcapital].is_live = 1;
 }
@@ -442,11 +447,14 @@ void next_generation(point world[][__WORLD_HEIGHT__], point prev_world[][__WORLD
 	}
 }
 
-int main() {
+int main() 
+{
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
 	int checkPlayers, Xcapital, Ycapital, user, users, bots;
+	int bonusLive = 0;
+	int politics = 0;
 
 	startProgram();
 
@@ -459,7 +467,7 @@ int main() {
 	cout << " --------------------------------------" << endl;
 	cout << "|          Выбор режима игры           |" << endl;
 	cout << "|--------------------------------------|" << endl;
-	cout << "| 1 - Игра с другом |                  |" << endl;
+	cout << "| 1 - Игра с ботом | 2 - Игра с другом |" << endl;
 	cout << " --------------------------------------" << endl;
 
 	system("cls");
@@ -538,34 +546,48 @@ int main() {
 		prevPointOfFirstPl = pointOfFirstPl;
 
 		print_world(world);
-		cout << " ---------------------------------------------------------" << endl;
-		cout << "             Перемещение и захват территорий             " << endl;
-		cout << " ---------------------------------------------------------" << endl;
-		cout << "В - занять верхнюю точку     ВВ - перевести курсор выше   " << endl;
-		cout << "Н - занять нижнюю точку      НН - перевести курсор ниже   " << endl;
-		cout << "Л - занять левую точку       ЛЛ - перевести курсор левее  " << endl;
-		cout << "П - занять правую точку      ПП - перевести курсор правее " << endl;
-		cout << " ---------------------------------------------------------" << endl;
-		cout << "                        Информация                       " << endl;
-		cout << " ---------------------------------------------------------" << endl;
+		cout << "|----------------------------------------------------------|----------------------------------------------------------|" << endl;
+		cout << "|             Перемещение и захват территорий              |                  Политика внутри страны                  |" << endl;
+		cout << "|--------------------------\ /-----------------------------|----------------------------------------------------------|" << endl;
+		cout << "| В - занять верхнюю точку  |  ВВ - перевести курсор выше  | ЛД - Увеличивает количество рождаемых людей              |" << endl;
+		cout << "| Н - занять нижнюю точку   |  НН - перевести курсор ниже  | АР - Увеличивает количество военных (Х)                  |" << endl;
+		cout << "| Л - занять левую точку    |  ЛЛ - перевести курсор левее | ПР - Увеличивает количество еды (Х)                      |" << endl;
+		cout << "| П - занять правую точку   |  ПП - перевести курсор правее| РС - Увеличивает количество ресурсов (Х)                 |" << endl;
+		cout << "|--------------------------/ \-----------------------------| ТВ - Увеличивает количество товаров (Х)                  |" << endl;
+		cout << "|                  Дополнительные команды                  |----------------------------------------------------------|" << endl;
+		cout << "|----------------------------------------------------------| Политики изменяют свои значения в зависимости от         |" << endl;
+		cout << "| КЦ - Завершить ход                                       | количества городов (клеток) под вашим владением          |" << endl;
+		cout << "|----------------------------------------------------------|----------------------------------------------------------|" << endl;
+		cout << "Информация:" << endl;
+		cout << endl;
 		cout << "Курсор сейчас на: " << endl;
 		cout << "X: " << Xcapital + 1<< " | Y: " << Ycapital + 1<< endl;
-		cout << "Количество ваших городов:" << endl;
+		cout << "Количество ваших городов (клеток):" << endl;
 		cout << pointOfFirstPl << endl;
 		cout << "Население:" << endl;
-		cout << population << endl;
+		cout << population;
+		if (bonusLive != 0) {
+			cout << "(+ " << bonusLive << ")" << endl;
+		} 
+		else {
+			cout << endl;
+		}
 		cout << " ---------------------------------------------------------" << endl;
 		cout << "КЦ - завершить ход" << endl;
 		cout << " ---------------------------------------------------------" << endl;
 		cout << "Ответ: ";
 		cin >> answer;
+		if (answer == "ЛД" || politics == 1) {
+			bonusLive = 400 + 100 * pointOfFirstPl;
+			politics = 1;
+		}
 		if (answer == "В" || answer == "Н" || answer == "Л" || answer == "П") {
 			if (population - 800 * prevPointOfFirstPl > 1) {
 				copy_world(world, prev_world);
 				next_generation(world, prev_world, answer, Xcapital, Ycapital, mode, Xbot, Ybot, DirectBot, whileStop);
 			}
 		}
-		else if (answer == "ВВ" || answer == "НН" || answer == "ЛЛ" || answer == "ПП") {
+		if (answer == "ВВ" || answer == "НН" || answer == "ЛЛ" || answer == "ПП") {
 			point p;
 			if (answer == "ВВ") {
 				copy_world(world, prev_world);
@@ -597,7 +619,7 @@ int main() {
 			}
 		}
 		else if (answer == "КЦ") {
-			population = population + 990 + 10 * pointOfFirstPl;
+			population = population + 990 + 10 * pointOfFirstPl + bonusLive;
 		}
 	}
 	system("pause");
