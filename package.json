@@ -1,0 +1,21 @@
+{
+  "name": "Wild_World",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jourloy/Wild_World.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jourloy/Wild_World/issues"
+  },
+  "homepage": "https://github.com/Jourloy/Wild_World#readme",
+  "dependencies": {}
+}
